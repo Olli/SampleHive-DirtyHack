@@ -59,6 +59,7 @@ class Database
 
         // -------------------------------------------------------------------
         // Insert into database
+        void DeleteAllSamples();
         void InsertIntoSamples(const std::vector<Sample>&);
         void InsertIntoHives(const std::string& hiveName);
         

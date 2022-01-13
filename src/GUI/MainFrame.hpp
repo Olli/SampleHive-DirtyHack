@@ -214,10 +214,12 @@ class MainFrame : public wxFrame
         // DirCtrl event handlers
         void OnClickDirCtrl(wxCommandEvent& event);
         void OnDragFromDirCtrl(wxTreeEvent& event);
+        void OnDirTreeOpenAutoImport(wxTreeEvent &event);
 
         // -------------------------------------------------------------------
         // TrashPane event handlers
-        void OnShowTrashContextMenu(wxTreeEvent& event);
+        void
+        OnShowTrashContextMenu(wxTreeEvent &event);
         void OnClickRestoreTrashItem(wxCommandEvent& event);
         void OnDragAndDropToTrash(wxDropFilesEvent& event);
 

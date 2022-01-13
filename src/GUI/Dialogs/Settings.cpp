@@ -79,6 +79,7 @@ Settings::Settings(wxWindow *window)
 
     m_AutoImportCheck = new wxCheckBox(m_CollectionSettingPanel, SD_AutoImport, "Auto import",
                                        wxDefaultPosition, wxDefaultSize, 0);
+    
     m_ImportDirLocation = new wxTextCtrl(m_CollectionSettingPanel, wxID_ANY, defaultDir,
                                          wxDefaultPosition, wxDefaultSize, 0);
     m_ImportDirLocation->Disable();

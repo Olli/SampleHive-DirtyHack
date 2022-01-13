@@ -219,8 +219,10 @@ MainFrame::MainFrame()
 
     // Adding the pages to wxNotebook
     m_Notebook->AddPage(m_DirCtrl, _("Browse"), false);
-    m_Notebook->AddPage(m_HivesPanel, _("Hives"), false);
-    m_Notebook->AddPage(m_TrashPanel, _("Trash"), false);
+    
+    // fastbrowse mode
+    /* m_Notebook->AddPage(m_HivesPanel, _("Hives"), false);
+        m_Notebook->AddPage(m_TrashPanel, _("Trash"), false); */
 
     // Right half of BottomSlitter window
     m_BottomRightPanel = new wxPanel(m_BottomSplitter, wxID_ANY,
@@ -435,7 +437,11 @@ MainFrame::MainFrame()
     m_StatusBar->Connect(wxEVT_SIZE, wxSizeEventHandler(MainFrame::OnResizeStatusBar), NULL, this);
 
     Bind(wxEVT_DIRCTRL_FILEACTIVATED, &MainFrame::OnClickDirCtrl, this, BC_DirCtrl);
-    Bind(wxEVT_TREE_BEGIN_DRAG, &MainFrame::OnDragFromDirCtrl, this, m_DirCtrl->GetTreeCtrl()->GetId());
+    //Bind(wxEVT_TREE_BEGIN_DRAG, &MainFrame::OnDragFromDirCtrl, this, m_DirCtrl->GetTreeCtrl()->GetId());
+    
+    
+    // fastbroewsemode
+    Bind(wxEVT_TREE_ITEM_EXPANDED, &MainFrame::OnDirTreeOpenAutoImport, this, m_DirCtrl->GetTreeCtrl()->GetId());
 
     Bind(wxEVT_BUTTON, &MainFrame::OnClickPlay, this, BC_Play);
     Bind(wxEVT_TOGGLEBUTTON, &MainFrame::OnClickLoop, this, BC_Loop);
@@ -456,8 +462,10 @@ MainFrame::MainFrame()
     Bind(wxEVT_DATAVIEW_SELECTION_CHANGED, &MainFrame::OnClickLibrary, this, BC_Library);
     Bind(wxEVT_DATAVIEW_ITEM_BEGIN_DRAG, &MainFrame::OnDragFromLibrary, this);
     m_Library->Connect(wxEVT_DROP_FILES,
-                       wxDropFilesEventHandler(MainFrame::OnDragAndDropToLibrary), NULL, this);
-    Bind(wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, &MainFrame::OnShowLibraryContextMenu, this, BC_Library);
+                       wxDropFilesEventHandler(MainFrame::OnDragAndDropToLibrary), NULL, this); 
+    
+    //Bind(wxEVT_COMMAND_DATAVIEW_ITEM_CONTEXT_MENU, &MainFrame::OnShowLibraryContextMenu, this, BC_Library);
+    
     Bind(wxEVT_DATAVIEW_COLUMN_HEADER_RIGHT_CLICK,
          &MainFrame::OnShowLibraryColumnHeaderContextMenu, this, BC_Library);
 
@@ -570,7 +578,7 @@ MainFrame::MainFrame()
     m_BottomRightPanelMainSizer->Layout();
 
     // Restore the data previously added to Library
-    LoadDatabase();
+    //LoadDatabase();
 
     // Set some properites after the frame has been created
     CallAfter(&MainFrame::SetAfterFrameCreate);
@@ -844,6 +852,45 @@ void MainFrame::OnDragAndDropToHives(wxDropFilesEvent& event)
                 m_InfoBar->ShowMessage(msg, wxICON_ERROR);
         }
     }
+}
+
+void MainFrame::OnDirTreeOpenAutoImport(wxTreeEvent& event) {
+    
+
+    
+    wxBusyCursor busy_cursor;
+    wxWindowDisabler window_disabler;
+
+    wxString filepath;
+    wxArrayString filepath_array;
+
+    const wxString pathToDirectory = m_DirCtrl->GetPath(event.GetItem());
+
+    size_t number_of_files = wxDir::GetAllFiles(pathToDirectory, &filepath_array,
+                                                wxEmptyString, wxDIR_FILES);
+
+
+
+
+    for (size_t i = 0; i < number_of_files; i++)
+    {
+        filepath = filepath_array[i];
+
+        if (wxFileExists(filepath))
+        {
+            filepath_array.push_back(filepath);
+        }
+        else if (wxDirExists(filepath))
+        {
+            wxDir::GetAllFiles(filepath, &filepath_array);
+        }
+     
+    }
+
+    // Delete all Files
+    m_Database->DeleteAllSamples();
+    m_Library->DeleteAllItems();
+    AddSamples(filepath_array);
 }
 
 void MainFrame::OnAutoImportDir(const wxString& pathToDirectory)

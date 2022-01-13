@@ -133,6 +133,19 @@ void Database::CreateTableHives()
 }
 
 //Loops through a Sample array and adds them to the database
+void Database::DeleteAllSamples() 
+{
+    try {
+        const auto sql = "DELETE FROM SAMPLES;";
+        Sqlite3Statement statement(m_Database, sql);
+        throw_on_sqlite3_error(sqlite3_exec(m_Database, sql, NULL, 0, &m_ErrMsg));
+        SH_LOG_INFO("All Samples deleted.");
+    }
+    catch (const std::exception &e)
+    {
+        show_modal_dialog_and_log("Error deleting Samples!", "Error", e.what());
+    }
+}
 void Database::InsertIntoSamples(const std::vector<Sample> &samples)
 {
     try
