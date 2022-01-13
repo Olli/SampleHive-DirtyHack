@@ -1,22 +1,7 @@
-#+TITLE: SampleHive
+#+TITLE: SampleHive - Dirty Preview hack
 #+AUTHOR: Apoorv Singh
-#+DESCRIPTION: A simple, modern audio sample browser/manager for GNU/Linux.
+#+DESCRIPTION: This is only a sample preview hack. Only open directories and quick zapping through the samples
 
-#+begin_html
-<p align="center">
-  <img src="assets/icons/icon-hive_256x256.png" alt="samplehive-icon" width="256" height="256">
-</p>
-<h1 align="center">
-  SampleHive
-</h1>
-<p align="center">
-  <h3 align="center">
-    A simple, modern audio sample browser/manager for GNU/Linux.
-  </h3>
-  <img src="assets/logo/logo-samplehive_1920x1080.png" alt="samplehive-logo" width=890>
-  <hr>
-</p>
-#+end_html
 
 * Table of contents :toc:
   - [[#what-is-samplehive][What is SampleHive?]]
@@ -31,7 +16,14 @@
 :PROPERTIES:
 :CUSTOM_ID: what-is-samplehive
 :END:
-SampleHive let's you manage your audio samples in a nice and simple way, just add a directory where you store all your samples, or drag and drop a directory on it to add samples to it, and it will help sort, search, play and view some information about the sample. You can also drag and drop from SampleHive to other applications.
+
+This dirty fork of sample hive can only one thing - opening directories with sound files in it and than quickly zapping through the files and previewing it.
+This software can no tagging or hive functionality like the original software but i only needed that functionality and nothing else and I'm a bit
+to lazy to implement it the right way.
+So basicly if you open a directory it imports the soundfiles/samples into the database and after opening the next directory the samples are
+deleted and the new ones are importet. 
+So it's good for organizing the samples directory based.
+
 
 - Dark
 #+caption: Dark Screenshot of SampleHive
