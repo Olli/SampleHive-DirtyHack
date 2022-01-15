@@ -115,7 +115,7 @@ void Database::CreateTableSamples()
         show_modal_dialog_and_log("Error! Cannot create SAMPLES table", "Error", e.what());
     }
 
-    const auto indices = "CREATE  INDEX idx_filename_path ON SAMPLES(filename, path);";
+    const auto indices = "CREATE INDEX IF NOT EXISTS idx_filename_path ON SAMPLES(FILENAME, PATH);";
     try
     {
         throw_on_sqlite3_error(sqlite3_exec(m_Database, indices, NULL, 0, &m_ErrMsg));
