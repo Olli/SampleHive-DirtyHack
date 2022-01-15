@@ -436,7 +436,7 @@ MainFrame::MainFrame()
     this->Connect(wxEVT_SIZE, wxSizeEventHandler(MainFrame::OnResizeFrame), NULL, this);
     m_StatusBar->Connect(wxEVT_SIZE, wxSizeEventHandler(MainFrame::OnResizeStatusBar), NULL, this);
 
-    Bind(wxEVT_DIRCTRL_FILEACTIVATED, &MainFrame::OnClickDirCtrl, this, BC_DirCtrl);
+    //Bind(wxEVT_DIRCTRL_FILEACTIVATED, &MainFrame::OnClickDirCtrl, this, BC_DirCtrl);
     //Bind(wxEVT_TREE_BEGIN_DRAG, &MainFrame::OnDragFromDirCtrl, this, m_DirCtrl->GetTreeCtrl()->GetId());
     
     
@@ -866,26 +866,9 @@ void MainFrame::OnDirTreeOpenAutoImport(wxTreeEvent& event) {
 
     const wxString pathToDirectory = m_DirCtrl->GetPath(event.GetItem());
 
+
     size_t number_of_files = wxDir::GetAllFiles(pathToDirectory, &filepath_array,
                                                 wxEmptyString, wxDIR_FILES);
-
-
-
-
-    for (size_t i = 0; i < number_of_files; i++)
-    {
-        filepath = filepath_array[i];
-
-        if (wxFileExists(filepath))
-        {
-            filepath_array.push_back(filepath);
-        }
-        else if (wxDirExists(filepath))
-        {
-            wxDir::GetAllFiles(filepath, &filepath_array);
-        }
-     
-    }
 
     // Delete all Files
     m_Database->DeleteAllSamples();
@@ -932,7 +915,7 @@ void MainFrame::OnAutoImportDir(const wxString& pathToDirectory)
 
     progressDialog->Destroy();
 
-    AddSamples(filepath_array);
+    //AddSamples(filepath_array);
 
     SH_LOG_DEBUG("Done Importing Samples");
 }
@@ -2795,7 +2778,7 @@ void MainFrame::OnFileSystemEvent(wxFileSystemWatcherEvent& event)
     {
         case wxFSW_EVENT_CREATE:
             SH_LOG_INFO("NEW FILES DETECTED, ADDING: {}", path);
-            AddSamples(files);
+            //AddSamples(files);
             break;
         case wxFSW_EVENT_ACCESS:
             SH_LOG_INFO("ACCESSING DIRECTORY: {}", path);
