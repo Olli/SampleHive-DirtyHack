@@ -53,15 +53,6 @@ bool App::OnInit()
     m_Frame = new MainFrame();
 
     wxBitmap bitmap;
-    wxSplashScreen* splash;
-
-    if (bitmap.LoadFile(SPLASH_LOGO, wxBITMAP_TYPE_PNG))
-    {
-        splash = new wxSplashScreen(bitmap,
-                                    wxSPLASH_CENTRE_ON_SCREEN | wxSPLASH_TIMEOUT,
-                                    2000, NULL, -1, wxDefaultPosition, wxDefaultSize,
-                                    wxBORDER_SIMPLE | wxSTAY_ON_TOP);
-    }
 
     wxYield();
 
